@@ -2,8 +2,16 @@ defmodule Kapture do
   @moduledoc """
   Documentation for `Kapture`.
   """
+  @doc"""
+  removes the last part of the URL specific to the Kaltura segment.
+  makes accepting URLs easier (otherwise you would have to remove the last
+  part of the URL)
+  """
+  def clean_url(url) do
+    Regex.replace(~r/seg-\d+-.+/, url, "")
+  end
   def compose_url(url, num) do
-    "#{url}seg-#{num}-v1-a1.ts"
+    "#{clean_url(url)}seg-#{num}-v1-a1.ts"
   end
   @doc"""
   capture a Kaltura video on brightspace.
