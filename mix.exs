@@ -22,7 +22,9 @@ defmodule Kapture.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.7"},
-      {:download, "~> 0.0.4"}
+      {:download, "~> 0.0.4"},
+      {:floki, "~> 0.31.0"},
+      {:csv, "~> 2.4"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]

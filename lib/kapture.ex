@@ -31,10 +31,26 @@ defmodule Kapture do
     end
   end
 
+  @spec save_video(
+          binary,
+          binary
+          | maybe_improper_list(
+              binary | maybe_improper_list(any, binary | []) | char,
+              binary | []
+            )
+        ) :: :ok | {:error, atom}
   def save_video(url, name \\ "final.mp4") do
     {:ok, file} = File.open(name, [:binary, :append])
     capture(url, file, 1)
     File.close(file)
+  end
+
+  def save_from_csv(name, dest_dir) do
+    # table schema is: URL, title
+    rows = File.stream!(name) |> CSV.decode(header: true) |> Enum.with_index()
+    for {{:ok, row}, index} <- rows, index != 0 do
+      Kapture.save_video(Enum.at(row, 0), Path.join(dest_dir, Enum.at(row, 1) <> ".mp4"))
+    end
   end
 
   def hello do
